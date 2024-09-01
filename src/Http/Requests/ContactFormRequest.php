@@ -19,12 +19,12 @@ class ContactFormRequest extends FormRequest
 
     public function attributes(): array
     {
-        return  Arr::prependKeysWith(config("contact_form.types.{$this->input('type')}.attributes", []), 'data.');
+        return Arr::prependKeysWith(config("contact_form.types.{$this->input('type')}.attributes", []), 'data.');
     }
 
     public function messages(): array
     {
-        return  Arr::prependKeysWith(config("contact_form.types.{$this->input('type')}.messages", []), 'data.');
+        return Arr::prependKeysWith(config("contact_form.types.{$this->input('type')}.messages", []), 'data.');
     }
 
     public function toData(): ContactFormData
@@ -32,12 +32,13 @@ class ContactFormRequest extends FormRequest
         $type = $this->input('type');
         $data = $this->validated();
         $meta = [
-            'ip' => config('contact_form.save_ip') ? $this->ip() : null,
-            'user_agent' => config('contact_form.save_user_agent') ? $this->userAgent() : null,
-            'referer' => config('contact_form.save_referer') ? $this->headers->get('referer') : null,
+            'ip' => $this->ip(),
+            'user_agent' => $this->userAgent(),
+            'referer' => $this->headers->get('referer'),
+            'user_id' => $this->user()?->id,
         ];
         $meta = array_filter($meta);
-        $cookies = config('contact_form.save_cookies') ? $this->cookies->all() : [];
+        $cookies = $this->cookies->all();
 
         return new ContactFormData($type, $data, $cookies, $meta);
     }
