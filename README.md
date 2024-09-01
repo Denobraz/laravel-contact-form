@@ -101,6 +101,17 @@ class SendManagerEmail extends ContactFormCallback
 {
     public function handle(): void
     {
+        // You can access the contact form data, cookies, meta, etc. using the following methods:
+        $email = $this->contactForm->data('email');
+
+        // To use the cookies, and meta-data, you need allow storing them in the config file.
+        $fbpCookie = $this->contactForm->cookie('fbp');
+        $ip = $this->contactForm->ip();
+        $userAgent = $this->contactForm->userAgent();
+        $referer = $this->contactForm->referer();
+        $userId = $this->contactForm->userId();
+        $someOtherMeta = $this->contactForm->meta('some_other_meta');
+    
         // In the notification class we pass the contact form model with data
         $notification = new ManagerContactFormNotification($this->contactForm);
         Notification::route('mail', 'admin@test.com')->notify($notification);

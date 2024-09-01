@@ -27,18 +27,38 @@ class ContactForm extends Model
         'meta' => 'array',
     ];
 
-    public function data(string $key, mixed $default): mixed
+    public function data(string $key, mixed $default = null): mixed
     {
         return $this->data[$key] ?? $default;
     }
 
-    public function cookie(string $key, mixed $default): mixed
+    public function cookie(string $key, mixed $default = null): mixed
     {
         return $this->cookies[$key] ?? $default;
     }
 
-    public function meta(string $key, mixed $default): mixed
+    public function meta(string $key, mixed $default = null): mixed
     {
         return $this->meta[$key] ?? $default;
+    }
+
+    public function ip(): ?string
+    {
+        return $this->meta('ip');
+    }
+
+    public function userAgent(): ?string
+    {
+        return $this->meta('user_agent');
+    }
+
+    public function referer(): ?string
+    {
+        return $this->meta('referer');
+    }
+
+    public function userId(): ?int
+    {
+        return $this->meta('user_id');
     }
 }
