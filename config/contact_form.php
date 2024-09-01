@@ -8,7 +8,6 @@ return [
     'save_referer' => true,
 
     'types' => [
-        /**
         'default' => [
             'data' => [
                 'name' => 'string|required',
@@ -17,18 +16,16 @@ return [
                 'message' => 'string|nullable',
             ],
             'messages' => [
-                'name.required' => 'Name is required',
+                // If you want to override the default message for some field
+                // 'name.required' => 'Name is required',
             ],
             'attributes' => [
-                'name' => 'Name',
-                'email' => 'Email',
-                'phone' => 'Phone',
-                'message' => 'Message',
+                // If you want to override the default attribute name for some field
+                // 'name' => 'Name',
             ],
             'callbacks' => [
                 Denobraz\LaravelContactForm\Callbacks\DummyContactFormCallback::class,
             ]
         ]
-         **/
     ]
 ];
