@@ -87,6 +87,16 @@ Any callback is Job-like class that extends `Denobraz\LaravelContactForm\Callbac
 
 If you want create queueable callback, you can extends `Denobraz\LaravelContactForm\Callbacks\QueueableContactFormCallback` class.
 
+Also, configuration allows you: (Don't forget to notify the users about sensitive data processing)
+- `save_contact_forms` - if you want to store the form data in the database
+- `save_cookies` - if you want to store the user's cookies
+- `save_ip` - if you want to store the user's ip
+- `save_user_agent` - if you want to store the user's user-agent
+- `save_referrer` - if you want to store the user's referrer
+- `save_user_id` - if you want to store the user's id
+
+## Examples
+
 Here is example of callback that sends email to the administrator:
 
 ```php
@@ -101,7 +111,7 @@ class SendManagerEmail extends ContactFormCallback
 {
     public function handle(): void
     {
-        // You can access the contact form data, cookies, meta, etc. using the following methods:
+        // You can access the contact form data using the following methods:
         $email = $this->contactForm->data('email');
 
         // To use the cookies, and meta-data, you need allow storing them in the config file.
@@ -120,17 +130,7 @@ class SendManagerEmail extends ContactFormCallback
 
 ```
 
-Also configuration allows you: (Don't forget to notify the users about sensitive data processing)
-- `save_contact_forms` - if you want to store the form data in the database
-- `save_cookies` - if you want to store the user's cookies
-- `save_ip` - if you want to store the user's ip
-- `save_user_agent` - if you want to store the user's user-agent
-- `save_referrer` - if you want to store the user's referrer
-- `save_user_id` - if you want to store the user's id
-
-## Examples
-
-Request:
+Request to `/api/contact-form`:
 
 ```json
 {
