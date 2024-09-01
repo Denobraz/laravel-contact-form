@@ -1,5 +1,7 @@
 This small laravel package helps you quickly connect the contact form api for your site by simply defining the types and fields in the configuration file.
 
+## Installation
+
 To install the package, run the command:
 
 ```bash
@@ -26,6 +28,10 @@ After that, you can run the migration:
 php artisan migrate
 ```
 
+## Usage
+
+### Registering the routes
+
 To use contact form add the following code to your api routes:
 
 ```php
@@ -33,6 +39,8 @@ To use contact form add the following code to your api routes:
 Route::post('/contact-form', Denobraz\LaravelContactForm\Http\Controllers\ContactFormController::class);
 
 ```
+
+### Define contact form types
 
 Default configuration file include `default` contact form type with `name`, `email`, `phone`, `message` fields.
 
@@ -50,16 +58,25 @@ Default configuration file include `default` contact form type with `name`, `ema
             ],
             'messages' => [
                 // If you want to override the default message for some field
+                // You can left this array empty
                 'name.required' => 'Name is required',
             ],
             'attributes' => [
                 // If you want to override the default attribute name for some field
+                // You can left this array empty
                 'name' => 'Name',
             ],
             'callbacks' => [
                 // Here is the list of callbacks that will be called after the form is validated
+                // You can left this array empty (maybe just for record form data in the database)
                 Denobraz\LaravelContactForm\Callbacks\DummyContactFormCallback::class,
             ]
+        ],
+        // `newsletter` is the name of the contact form type
+        'newsletter' => [
+            'data' => [
+                'email' => 'string|required|email',
+            ],
         ]
     ]
 ```
@@ -84,6 +101,7 @@ class SendManagerEmail extends ContactFormCallback
 {
     public function handle(): void
     {
+        // In the notification class we pass the contact form model with data
         $notification = new ManagerContactFormNotification($this->contactForm);
         Notification::route('mail', 'admin@test.com')->notify($notification);
     }
@@ -91,9 +109,31 @@ class SendManagerEmail extends ContactFormCallback
 
 ```
 
-The configuration also allows you to save forms in the database, manage the storage of cookies, ip, user-agent, if necessary. (Don't forget to notify the users about this)
+Also configuration allows you: (Don't forget to notify the users about sensitive data processing)
+- `save_contact_forms` - if you want to store the form data in the database
+- `save_cookies` - if you want to store the user's cookies
+- `save_ip` - if you want to store the user's ip
+- `save_user_agent` - if you want to store the user's user-agent
+- `save_referrer` - if you want to store the user's referrer
+- `save_user_id` - if you want to store the user's id
 
-Example of api error response:
+## Examples
+
+Request:
+
+```json
+{
+  "type": "default",
+  "data": {
+    "name": "John Doe",
+    "email": "example@test.com",
+    "phone": "+1234567890",
+    "message": "Hello, world!"
+  }
+}
+```
+
+Error response:
 
 ```json
 {
@@ -109,7 +149,7 @@ Example of api error response:
 }
 ```
 
-Example of api success response:
+Success response:
 
 ```json
 {
