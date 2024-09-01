@@ -2,10 +2,11 @@
 
 return [
     'save_contact_forms' => false,
-    'save_cookies' => true,
-    'save_ip' => true,
-    'save_user_agent' => true,
-    'save_referer' => true,
+    'save_cookies' => false,
+    'save_ip' => false,
+    'save_user_agent' => false,
+    'save_referer' => false,
+    'save_user_id' => false,
 
     'types' => [
         'default' => [
