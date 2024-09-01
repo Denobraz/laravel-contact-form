@@ -1,0 +1,7 @@
+# Depencies
+/vendor
+composer.lock
+
+# IDE
+/.idea
+/.vscode
