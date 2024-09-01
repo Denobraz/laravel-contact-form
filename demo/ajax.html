@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ajax contact form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="p-4 border rounded" style="max-width: 500px; margin: 100px auto;">
+    <h1 class="mb-4 text-center">Contact form AJAX</h1>
+    <form id="contact-form" action="http://localhost/api/contact-form" method="post">
+        <div class="alert alert-danger mb-3" role="alert" style="display: none;"></div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input id="name" class="form-control" type="text" name="name" placeholder="Name">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input id="phone" class="form-control" type="text" name="phone" placeholder="Phone">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" class="form-control" type="email" name="email" placeholder="Email">
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" class="form-control" name="message" placeholder="Message"></textarea>
+        </div>
+        <button class="btn btn-lg w-100 btn-primary" type="submit">Send</button>
+    </form>
+</div>
+
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var alert = document.querySelector('.alert');
+        var form = e.target;
+        var data = {
+            type: 'default',
+            data: {
+                name: form.name.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                message: form.message.value
+            }
+        };
+
+        alert.style.display = 'none';
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    form.innerHTML = '<div class="alert alert-success" role="alert">Thank you for your submit</div>';
+                } else {
+                    alert.style.display = 'block';
+                    alert.textContent = data.message;
+                }
+            });
+    });
+</script>
+</body>
+</html>
