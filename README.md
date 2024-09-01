@@ -2,21 +2,29 @@ This small laravel package helps you quickly connect the contact form api for yo
 
 To install the package, run the command:
 
-``composer require denobraz/laravel-contact-form``
+```bash
+composer require denobraz/laravel-contact-form
+```
 
 After installation, you need to publish the configuration file:
 
-``php artisan vendor:publish --provider="Denobraz\LaravelContactForm\ContactFormServiceProvider" --tag="config"``
+```bash
+php artisan vendor:publish --provider="Denobraz\LaravelContactForm\ContactFormServiceProvider" --tag="config"
+```
 
 After that, you can configure the contact form in the file `config/contact_form.php`.
 
 To publish the migration file, run the command:
 
-``php artisan vendor:publish --provider="Denobraz\LaravelContactForm\ContactFormServiceProvider" --tag="migrations"``
+```bash
+php artisan vendor:publish --provider="Denobraz\LaravelContactForm\ContactFormServiceProvider" --tag="migrations"
+```
 
 After that, you can run the migration:
 
-``php artisan migrate``
+```bash
+php artisan migrate
+```
 
 To use contact form add the following code to your api routes:
 
@@ -84,3 +92,28 @@ class SendManagerEmail extends ContactFormCallback
 ```
 
 The configuration also allows you to save forms in the database, manage the storage of cookies, ip, user-agent, if necessary. (Don't forget to notify the users about this)
+
+Example of api error response:
+
+```json
+{
+    "message": "Name is required (and 1 more error)",
+    "errors": {
+        "data.name": [
+            "Name is required"
+        ],
+        "data.email": [
+            "The Email field is required."
+        ]
+    }
+}
+```
+
+Example of api success response:
+
+```json
+{
+    "success": true
+}
+```
+You can see frontend code example in the `demo` directory.
