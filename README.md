@@ -35,9 +35,7 @@ php artisan migrate
 To use contact form add the following code to your api routes:
 
 ```php
-
 Route::post('/contact-form', Denobraz\LaravelContactForm\Http\Controllers\ContactFormController::class);
-
 ```
 
 ### Define contact form types
@@ -45,7 +43,6 @@ Route::post('/contact-form', Denobraz\LaravelContactForm\Http\Controllers\Contac
 Default configuration file include `default` contact form type with `name`, `email`, `phone`, `message` fields.
 
 ```php
-
 'types' => [
         // `default` is the name of the contact form type
         'default' => [
@@ -58,17 +55,17 @@ Default configuration file include `default` contact form type with `name`, `ema
             ],
             'messages' => [
                 // If you want to override the default message for some field
-                // You can left this array empty
+                // You can leave this array empty
                 'name.required' => 'Name is required',
             ],
             'attributes' => [
                 // If you want to override the default attribute name for some field
-                // You can left this array empty
+                // You can leave this array empty
                 'name' => 'Name',
             ],
             'callbacks' => [
                 // Here is the list of callbacks that will be called after the form is validated
-                // You can left this array empty (maybe just for record form data in the database)
+                // You can leave this array empty (maybe just for record form data in the database)
                 Denobraz\LaravelContactForm\Callbacks\DummyContactFormCallback::class,
             ]
         ],
@@ -85,7 +82,7 @@ You can attach callbacks to any type of contact form (notification to the admini
 
 Any callback is Job-like class that extends `Denobraz\LaravelContactForm\Callbacks\ContactFormCallback`.
 
-If you want create queueable callback, you can extends `Denobraz\LaravelContactForm\Callbacks\QueueableContactFormCallback` class.
+If you want to create queueable callback, you can extend `Denobraz\LaravelContactForm\Callbacks\QueueableContactFormCallback` class.
 
 Also, configuration allows you: (Don't forget to notify the users about sensitive data processing)
 - `save_contact_forms` - if you want to store the form data in the database
@@ -100,7 +97,6 @@ Also, configuration allows you: (Don't forget to notify the users about sensitiv
 Here is example of callback that sends email to the administrator:
 
 ```php
-
 namespace App\ContactForm\Callbacks;
 
 use App\Notifications\ManagerContactFormNotification;
@@ -109,6 +105,8 @@ use Illuminate\Support\Facades\Notification;
 
 class SendManagerEmail extends ContactFormCallback
 {
+    // You must implement the `handle` method
+    // where you can process the contact form data
     public function handle(): void
     {
         // You can access the contact form data using the following methods:
@@ -127,7 +125,6 @@ class SendManagerEmail extends ContactFormCallback
         Notification::route('mail', 'admin@test.com')->notify($notification);
     }
 }
-
 ```
 
 Request to `/api/contact-form`:
