@@ -30,7 +30,7 @@ class ContactFormRequest extends FormRequest
     public function toData(): ContactFormData
     {
         $type = $this->input('type');
-        $data = $this->validated();
+        $data = $this->validated('data');
         $meta = [
             'ip' => $this->ip(),
             'user_agent' => $this->userAgent(),
